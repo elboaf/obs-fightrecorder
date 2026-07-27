@@ -73,6 +73,16 @@ function Build {
     Log-Group "Configuring ${ProductName}..."
     Invoke-External cmake @CmakeArgs
 
+    Log-Group "Building OBS Studio dependency (${Configuration})..."
+    $ObsStudioBuildDir = Get-ChildItem -Path "${ProjectRoot}/.deps" -Directory -Filter "obs-studio-*" |
+        ForEach-Object { Join-Path $_.FullName "build_${Target}" } |
+        Where-Object { Test-Path $_ } |
+        Select-Object -First 1
+    if ( ! $ObsStudioBuildDir ) {
+        throw "Could not locate OBS Studio dependency build directory under .deps"
+    }
+    Invoke-External cmake --build $ObsStudioBuildDir --config $Configuration
+
     Log-Group "Building ${ProductName}..."
     Invoke-External cmake @CmakeBuildArgs
 
