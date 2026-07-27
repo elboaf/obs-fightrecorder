@@ -58,14 +58,15 @@
       "architecture": "x64",
       "warnings": {"dev": true, "deprecated": true},
       "cacheVariables": {
+        "CMAKE_INCLUDE_PATH": "${sourceDir}/.deps/obs-deps-2026-07-15-x64/include",
+        "CMAKE_LIBRARY_PATH": "${sourceDir}/.deps/obs-deps-2026-07-15-x64/lib",
         "CMAKE_SYSTEM_VERSION": "10.0.22621.0",
-        "ENABLE_FRONTEND_API": true,
-        "CMAKE_INCLUDE_PATH": "${sourceDir}/.deps/obs-deps-2025-05-23-x64/include",
-        "CMAKE_LIBRARY_PATH": "${sourceDir}/.deps/obs-deps-2025-05-23-x64/lib"
-        //"libobs_DIR": "${sourceDir}/.deps/obs-studio-31.0.3/build_x64/libobs",
-        //"w32-pthreads_DIR": "${sourceDir}/.deps/obs-studio-31.0.3/build_x64/deps/w32-pthreads",
-        //"obs-frontend-api_DIR": "${sourceDir}/.deps/obs-studio-31.0.3/build_x64/UI/obs-frontend-api"
-        //"CMAKE_PREFIX_PATH": "$env{CMAKE_PREFIX_PATH};${sourceDir}/.deps/obs-studio-31.0.3/build_x64/libobs;${sourceDir}/.deps/obs-studio-31.0.3/build_x64/deps/w32-pthreads;"
+        "ENABLE_FRONTEND_API": "TRUE",
+        "ENABLE_QT": "FALSE",
+        "libobs_DIR": "${sourceDir}/.deps/obs-studio-32.2.1/build_x64/libobs",
+        "w32-pthreads_DIR": "${sourceDir}/.deps/obs-studio-32.2.1/build_x64/deps/w32-pthreads",
+        "obs-frontend-api_DIR": "${sourceDir}/.deps/obs-studio-32.2.1/build_x64/frontend/api",
+        "CMAKE_MODULE_PATH": "${sourceDir}/.deps/obs-studio-32.2.1/cmake/finders"
       }
     },
     {
@@ -76,12 +77,14 @@
       "cacheVariables": {
         "CMAKE_SYSTEM_VERSION": "10.0.22621.0",
         "CMAKE_COMPILE_WARNING_AS_ERROR": true,
-        "CMAKE_INCLUDE_PATH": "${sourceDir}/.deps/obs-deps-2025-05-23-x64/include",
-        "CMAKE_LIBRARY_PATH": "${sourceDir}/.deps/obs-deps-2025-05-23-x64/lib"
-        //"libobs_DIR": "${sourceDir}/.deps/obs-studio-31.0.3/build_x64/libobs",
-        //"w32-pthreads_DIR": "${sourceDir}/.deps/obs-studio-31.0.3/build_x64/deps/w32-pthreads",
-        //"obs-frontend-api_DIR": "${sourceDir}/.deps/obs-studio-31.0.3/build_x64/UI/obs-frontend-api"
-        //"CMAKE_PREFIX_PATH": "$env{CMAKE_PREFIX_PATH};${sourceDir}/.deps/obs-studio-31.0.3/build_x64/libobs;${sourceDir}/.deps/obs-studio-31.0.3/build_x64/deps/w32-pthreads;"
+        "CMAKE_INCLUDE_PATH": "${sourceDir}/.deps/obs-deps-2026-07-15-x64/include",
+        "CMAKE_LIBRARY_PATH": "${sourceDir}/.deps/obs-deps-2026-07-15-x64/lib",
+        "ENABLE_FRONTEND_API": "TRUE",
+        "ENABLE_QT": "FALSE",
+        "libobs_DIR": "${sourceDir}/.deps/obs-studio-32.2.1/build_x64/libobs",
+        "w32-pthreads_DIR": "${sourceDir}/.deps/obs-studio-32.2.1/build_x64/deps/w32-pthreads",
+        "obs-frontend-api_DIR": "${sourceDir}/.deps/obs-studio-32.2.1/build_x64/frontend/api",
+        "CMAKE_MODULE_PATH": "${sourceDir}/.deps/obs-studio-32.2.1/cmake/finders"
       }
     },
     {
