@@ -94,12 +94,29 @@ function(_setup_obs_studio)
   message(STATUS "Build ${label} (${arch}) - done")
 
   message(STATUS "Install ${label} (${arch})")
-  execute_process(
-    COMMAND "${CMAKE_COMMAND}" --install build_${arch} --config Debug --prefix
-            "${dependencies_dir}"
-    WORKING_DIRECTORY "${dependencies_dir}/${_obs_destination}"
-    RESULT_VARIABLE _process_result COMMAND_ERROR_IS_FATAL ANY
-    OUTPUT_QUIET)
+  if(OS_WINDOWS)
+    # Install runtime DLLs
+    execute_process(
+      COMMAND "${CMAKE_COMMAND}" --install build_${arch} --component obs_libraries --config Debug --prefix
+              "${dependencies_dir}"
+      WORKING_DIRECTORY "${dependencies_dir}/${_obs_destination}"
+      RESULT_VARIABLE _process_result COMMAND_ERROR_IS_FATAL ANY
+      OUTPUT_QUIET)
+    # Install CMake config files, headers, and import libs
+    execute_process(
+      COMMAND "${CMAKE_COMMAND}" --install build_${arch} --component Development --config Debug --prefix
+              "${dependencies_dir}"
+      WORKING_DIRECTORY "${dependencies_dir}/${_obs_destination}"
+      RESULT_VARIABLE _process_result COMMAND_ERROR_IS_FATAL ANY
+      OUTPUT_QUIET)
+  else()
+    execute_process(
+      COMMAND "${CMAKE_COMMAND}" --install build_${arch} --component Development --config Debug --prefix
+              "${dependencies_dir}"
+      WORKING_DIRECTORY "${dependencies_dir}/${_obs_destination}"
+      RESULT_VARIABLE _process_result COMMAND_ERROR_IS_FATAL ANY
+      OUTPUT_QUIET)
+  endif()
   message(STATUS "Install ${label} (${arch}) - done")
 endfunction()
 
