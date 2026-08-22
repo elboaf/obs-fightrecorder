@@ -154,9 +154,28 @@ void stop_recording()
 		 * inherit footage from this one. */
 		if (obs_frontend_replay_buffer_active()) {
 			obs_frontend_replay_buffer_stop();
-			obs_frontend_replay_buffer_start();
+
+			/* Wait briefly for the buffer to fully stop.
+			 * Calling start() while still stopping can fail
+			 * silently, leaving the buffer down until the
+			 * 30-second client check rescues it. */
+			int wait_ms = 0;
+			while (obs_frontend_replay_buffer_active() && wait_ms < 1000) {
+				os_sleep_ms(50);
+				wait_ms += 50;
+			}
+
+			/* Retry start until the buffer is actually active */
+			int retries = 0;
+			while (!obs_frontend_replay_buffer_active() && retries < 10) {
+				obs_frontend_replay_buffer_start();
+				os_sleep_ms(100);
+				retries++;
+			}
+
 			blog(LOG_DEBUG,
-			     "obs-fightrecorder restarted replay buffer to prevent overlap");
+			     "obs-fightrecorder restarted replay buffer (waited %d ms, retries %d)",
+			     wait_ms, retries);
 		}
 	}
 }
