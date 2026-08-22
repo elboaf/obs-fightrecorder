@@ -26,10 +26,26 @@ include(helpers)
 
 add_library(${CMAKE_PROJECT_NAME} MODULE)
 
+# Find FFmpeg libraries from obs-deps (works in CI and local builds)
+find_library(AVFORMAT_LIB avformat PATHS ${CMAKE_PREFIX_PATH} PATH_SUFFIXES lib NO_DEFAULT_PATH)
+find_library(AVUTIL_LIB avutil PATHS ${CMAKE_PREFIX_PATH} PATH_SUFFIXES lib NO_DEFAULT_PATH)
+find_library(AVCODEC_LIB avcodec PATHS ${CMAKE_PREFIX_PATH} PATH_SUFFIXES lib NO_DEFAULT_PATH)
+
+# Fallback to original behavior for local builds with CMAKE_LIBRARY_PATH set
+if(NOT AVFORMAT_LIB)
+    set(AVFORMAT_LIB "${CMAKE_LIBRARY_PATH}/avformat.lib")
+endif()
+if(NOT AVUTIL_LIB)
+    set(AVUTIL_LIB "${CMAKE_LIBRARY_PATH}/avutil.lib")
+endif()
+if(NOT AVCODEC_LIB)
+    set(AVCODEC_LIB "${CMAKE_LIBRARY_PATH}/avcodec.lib")
+endif()
+
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE 
-    "${CMAKE_LIBRARY_PATH}/avformat.lib"
-    "${CMAKE_LIBRARY_PATH}/avutil.lib"
-    "${CMAKE_LIBRARY_PATH}/avcodec.lib")
+    ${AVFORMAT_LIB}
+    ${AVUTIL_LIB}
+    ${AVCODEC_LIB})
 
 find_package(libobs REQUIRED)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE OBS::libobs)
