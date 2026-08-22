@@ -22,15 +22,25 @@ jobs:
       - name: Build
         run: cmake --build build --config RelWithDebInfo
 
+      - name: Find built DLL
+        shell: pwsh
+        run: |
+          $dll = Get-ChildItem -Path build -Recurse -Filter "obs-fightrecorder.dll" | Select-Object -First 1
+          if (-not $dll) {
+            throw "obs-fightrecorder.dll not found in build output"
+          }
+          Copy-Item $dll.FullName -Destination $env:GITHUB_WORKSPACE\obs-fightrecorder.dll
+          Write-Host "Found DLL at: $($dll.FullName)"
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: obs-fightrecorder-windows
-          path: build/RelWithDebInfo/obs-fightrecorder.dll
+          path: obs-fightrecorder.dll
 
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: build/RelWithDebInfo/obs-fightrecorder.dll
+          files: obs-fightrecorder.dll
           generate_release_notes: true
