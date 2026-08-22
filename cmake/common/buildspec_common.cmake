@@ -94,14 +94,9 @@ function(_setup_obs_studio)
   message(STATUS "Build ${label} (${arch}) - done")
 
   message(STATUS "Install ${label} (${arch})")
-  if(OS_WINDOWS)
-    set(_cmake_extra "--component obs_libraries")
-  else()
-    set(_cmake_extra "")
-  endif()
   execute_process(
-    COMMAND "${CMAKE_COMMAND}" --install build_${arch} --component Development --config Debug --prefix
-            "${dependencies_dir}" ${_cmake_extra}
+    COMMAND "${CMAKE_COMMAND}" --install build_${arch} --config Debug --prefix
+            "${dependencies_dir}"
     WORKING_DIRECTORY "${dependencies_dir}/${_obs_destination}"
     RESULT_VARIABLE _process_result COMMAND_ERROR_IS_FATAL ANY
     OUTPUT_QUIET)
