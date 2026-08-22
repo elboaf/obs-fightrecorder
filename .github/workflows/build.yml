@@ -1,0 +1,45 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:  # also allows manual trigger from GitHub UI
+
+jobs:
+  build-windows:
+    runs-on: windows-2022
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup OBS deps
+        uses: obsproject/obs-deps@v1.1.0
+        with:
+          path: ${{ github.workspace }}/obs-deps
+
+      - name: Configure
+        shell: pwsh
+        run: |
+          cmake -S . -B build `
+            -G "Visual Studio 17 2022" `
+            -A x64 `
+            -DCMAKE_PREFIX_PATH="${{ github.workspace }}/obs-deps"
+
+      - name: Build
+        run: cmake --build build --config RelWithDebInfo
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: obs-fightrecoder-windows
+          path: build/RelWithDebInfo/obs-fightrecorder.dll
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: build/RelWithDebInfo/obs-fightrecorder.dll
+          generate_release_notes: true
