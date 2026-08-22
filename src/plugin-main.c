@@ -149,6 +149,15 @@ void stop_recording()
 	if (fightrecorder->started_recording) {
 		obs_frontend_recording_stop();
 		blog(LOG_DEBUG, "obs-fightrecorder stopped recording");
+
+		/* Clear the replay buffer so the next fight doesn't
+		 * inherit footage from this one. */
+		if (obs_frontend_replay_buffer_active()) {
+			obs_frontend_replay_buffer_stop();
+			obs_frontend_replay_buffer_start();
+			blog(LOG_DEBUG,
+			     "obs-fightrecorder restarted replay buffer to prevent overlap");
+		}
 	}
 }
 
