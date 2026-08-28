@@ -409,7 +409,8 @@ void *monitor_file_and_control_recording(fightrecorder_data_t *arg)
 
 			while (fgets(line, sizeof(line), curr->fp)) {
 				if (strstr(line, "has applied bonuses to") != NULL ||
-				    strstr(line, "combat") != NULL) {
+				    strstr(line, "combat") != NULL ||
+				    strstr(line, "Micro Jump Field Generator fails to activate as it is still recovering") != NULL) {
 
 					obs_log(LOG_INFO, "Fightrecorder found combat");
 					combat = true;
