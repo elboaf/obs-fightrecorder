@@ -410,8 +410,8 @@ void *monitor_file_and_control_recording(fightrecorder_data_t *arg)
 			while (fgets(line, sizeof(line), curr->fp)) {
 				if (strstr(line, "has applied bonuses to") != NULL ||
 				    strstr(line, "combat") != NULL ||
-				    strstr(line, "Micro Jump Field Generator cannot be manually deactivated in the middle of an operation") != NULL ||
-				    strstr(line, "Micro Jump Field Generator is already active") != NULL) {
+				    strstr(line, "The Interdiction Sphere Launcher") != NULL ||
+				    strstr(line, "Micro Jump Field Generator") != NULL) {
 
 					obs_log(LOG_INFO, "Fightrecorder found combat");
 					combat = true;
